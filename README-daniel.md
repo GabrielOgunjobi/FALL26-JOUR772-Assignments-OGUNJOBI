@@ -1,3 +1,4 @@
-# data_journalism_2024_fall
+# data\_journalism\_2024\_fall
 
-This repo is a shell for students at the University of Maryland's Philip Merrill College of Journalism enrolled in Data Journalism (JOUR472/772) taught by Daniel Trielli to use for coursework.  Please click "use this template" to create a version of this repository in your own account to store files for assignments.
+This repo is my own assignment and I am having a fabulous time, calling back my lecturer on this stuff blowing up my entire head. Haha!
+
