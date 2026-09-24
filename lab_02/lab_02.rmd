@@ -53,7 +53,11 @@ climate_course <- umd_courses |>
 
 ```{r}
 Fall2024 <- umd_courses|>
-  group_by(department) >
+  group_by(department) |>
+  filter(term == 202408 & (syllabus_count >=1))|>
+  summarize(course_count = n())|>
+  arrange(desc(course_count))
+  
 
   
 ```
@@ -61,11 +65,37 @@ Fall2024 <- umd_courses|>
 **Q4.** Using the Maryland campaign expenses data, change the datatype of the expenditure_date column so that it is a date and not a chr, saving the result as a new dataframe. Then create a new column for the month based on expenditure_date. Then write code that shows total amount spent each month by Wes Moore's committee (you'll need to search the data to find the exact name, and we're not looking in payee_name). Write a sentence describing the pattern of spending over time. **A4.**
 
 ```{r}
+wes_moore <- maryland_expenses |>
+  mutate(expenditure_date = mdy(expenditure_date))|>
+  mutate(month = floor_date(expenditure_date, "month"))|>
+  filter(str_detect(committee_name, "Wes For"))|>
+  select(payee_type, committee_name, month, amount)|>
+  group_by(month)|>
+  summarize(total_donations = sum(amount))
+  
 ```
 
 **Q5.** Using case_when(), create a column in the Maryland expenses data called `spending_location` indicating whether each record spent money in Maryland or outside Maryland. For records that are in Maryland, make the new column's value "In-state" and for all others, make it "Out of state". Then write code that shows the total amount of money spent in each category and describe the results. You can do this in one statement or break it up into two statements (saving the new column to your dataframe). **A5**
 
 ```{r}
+maryland_expenses|>
+mutate(
+spending_location = case_when(
+str_detect(address, "Maryland") ~ "In-state",
+str_detect(address, "California") ~ "Out of state",
+str_detect(address, "Washington") ~ "Out of state",
+str_detect(address, "Virginia") ~ "Out of state",
+str_detect(address, "Florida") ~ "Out of state",
+str_detect(address, "North Carolina") ~ "Out of state",
+str_detect(address, "Louisiana") ~ "Out of state",
+str_detect(address, "Massachusetts") ~ "Out of state",
+str_detect(address, "West Virginia") ~ "Out of state",
+.default = NA
+)
+)|>
+group_by(spending_location) |>
+summarise(total_amount =sum(amount))|>
+    arrange(desc(total_amount))
 ```
 
 **Q6.** Choose your own adventure: using either the UMD courses or campaign expenses data, ask and answer a question that is different than the previous ones. You can use one of the ones you provided in the pre_lab. **A6.**
