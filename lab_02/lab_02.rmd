@@ -100,5 +100,10 @@ summarise(total_amount =sum(amount))|>
 
 **Q6.** Choose your own adventure: using either the UMD courses or campaign expenses data, ask and answer a question that is different than the previous ones. You can use one of the ones you provided in the pre_lab. **A6.**
 
+**How many people donated money for Wes Moore campaign through check? I also need you to sort out and separate other means of payment. ANSWER:**
+
 ```{r}
+maryland_expenses|>
+   str_detect(expense_method,"Check") ~ "check_payment"
+
 ```
