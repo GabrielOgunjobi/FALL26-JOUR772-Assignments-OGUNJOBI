@@ -41,8 +41,7 @@ climate_course <- umd_courses |>
     summarise(climateword =n()) |>
     arrange (desc(climateword))
     
-  
-  
+
 ```
 
 **Q2.** Of the departments listed in A1, which one is the most interesting to you, and why? **A2. Honors, I do not understand the correlation between climate and Honors and why it would have 9 seats.**
