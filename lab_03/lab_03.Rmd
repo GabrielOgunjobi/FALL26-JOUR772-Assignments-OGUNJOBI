@@ -51,19 +51,21 @@ When you have found as many as possible, save the result to a new dataframe call
 A1:
 
 ```{r}
+cleaned_md_grants_loans -> pg_schools|>
+str_detect(grantee,'Prince George' & 'Princes'))
+  
 
-# Load in the Maryland state agency payments data, making sure that it correctly sets the datatypes using all of the rows
-
-# Load in the Maryland grants and loan data
 ```
 
 Q2: Using that `pg_schools` dataframe, write code to calculate the total amount of payments to the Prince George's County School system for each fiscal year. Which fiscal year had the largest total amount? Are there any aspects of the results that stand out to you?
 
-**A2: 2020 has the largest total amount, with 1709 counts.**
+A2:
 
 ```{r}
+
+
 pg_schools <- md_grants_loans|>
-  group_by(`Fiscal Year`, Category) |> 
+  group_by(`Fiscal Year`) |> 
   summarize(count = n()) |> 
   arrange(`Fiscal Year`)|>
   arrange(desc(count))
