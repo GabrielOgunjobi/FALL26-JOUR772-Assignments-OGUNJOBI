@@ -51,6 +51,11 @@ When you have found as many as possible, save the result to a new dataframe call
 A1:
 
 ```{r}
+
+
+
+
+
 cleaned_md_grants_loans -> pg_schools|>
 str_detect(grantee,'Prince George' & 'Princes'))
   
