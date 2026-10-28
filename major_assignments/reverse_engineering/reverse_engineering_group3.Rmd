@@ -36,14 +36,16 @@ library(janitor)
 In this section, describe the source of the data, write a basic data dictionary for data you are working with, and discuss any caveats or issues you discovered working with this data.
 
 ```{r}
-
-cleaned_homicide_data <- read_csv("data/homicide-data.csv")|> clean_names()
-
-
-# Path to data should be loaded from folder "data" i.e. read_csv("data/name_of_data.csv")
+# Load required data
+homicide_data <- read_csv("data/homicide-data.csv", locale = readr::locale(encoding = "Latin1"))
+# Path to data should be loaded from folder "data" i.e. read_ctsv("data/name_of_data.csv")
 
 # Clean required data and prepare for analysis if needed. 
+cleaned_up_homicide_data <- homicide_data |>
+  clean_names()
 
+
+glimpse(homicide_data)
 
 ```
 
@@ -57,6 +59,7 @@ In this notebook, we are reverse engineering five sentences from the story.
 - **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
 
 ```{r}
+
 # Put code to reverse engineer sentence here
 
 # Display results of code below this codeblock
@@ -69,18 +72,18 @@ In this notebook, we are reverse engineering five sentences from the story.
 - **summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
 
 ```{r}
-# Put code to reverse engineer sentence here
+date_organizing <- cleaned_up_homicide_data |> mutate(reported_date = ymd(reported_date))
 
-# Display results of code below this codeblock
+cleaned_up_homicide_data |> 
+  mutate(reported_date = ymd(reported_date)) |> mutate(reported_year = floor_date(reported_date, "year")) |>
+  group_by(city, reported_year) |>
+  summarise(total_uids = n()) |>
+  arrange(city, reported_year)
 
-```
 
 ### Sentence 3
 
-- **Sentence text**: [Baltimore is also one of 30 cities that have seen an increase in homicides in recent years, with the greatest raw number increase in killings of any city other than Chicago, which has four times the population. While homicide rates remain near historical lows in most American cities, Baltimore and Chicago are now both seeing murder tallies that rival the early 2000s.]
-- **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
 
-```{r}
 # Put code to reverse engineer sentence here
 
 # Display results of code below this codeblock
