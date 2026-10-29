@@ -69,24 +69,23 @@ In this notebook, we are reverse engineering five sentences from the story.
 ### Sentence 2
 
 - **Sentence text**: [Of 50 of the nation’s largest cities, Baltimore is one of 34 where police now make homicide arrests less often than in 2014, according to a Washington Post analysis. In Chicago, the homicide arrest rate has dropped 21 percentage points, in Boston it has dropped 12 points and in St. Louis it is down 9.]
-- **summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
+- **summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?] **From brainstorming, the team came up with an idea to group_by city and then, the reported date. Through that, we were able to filter the years from 2007 to 2014. This was eventually followed up by counting each of the unique number of tags (UID) per year.**
 
 ```{r}
 date_organizing <- cleaned_up_homicide_data |> mutate(reported_date = ymd(reported_date))
 
-cleaned_up_homicide_data |> 
-  mutate(reported_date = ymd(reported_date)) |> mutate(reported_year = floor_date(reported_date, "year")) |>
+yearly_counting <- date_organizing |> group_by(city) |> summarize(reported_date = n()) |> arrange(desc(reported_date))
+
+yearly_counting <- date_organizing |> mutate(year = year(ymd(reported_date))) |>  count(year)
+
+#calls_by_county <- homicide_data |> mutate(reported_date = ymd(reported_date)) |> group_by(county) |> summarise(total_calls = n()) |> arrange(desc(city, reported year))
+
+# Display results of code below this codeblock
+
+homicide_data |> mutate(reported_date = ymd(reported_date)) |> mutate(reported_year = floor_date(reported_date, "year")) |>
   group_by(city, reported_year) |>
   summarise(total_uids = n()) |>
   arrange(city, reported_year)
-
-
-### Sentence 3
-
-
-# Put code to reverse engineer sentence here
-
-# Display results of code below this codeblock
 
 ```
 
